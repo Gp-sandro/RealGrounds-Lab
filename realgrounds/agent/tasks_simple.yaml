@@ -1,0 +1,29 @@
+# One session in the simple room. expect: done (physics confirms it) / refused (by the object's
+# attributes, before moving) / failed (tried, and physics says no).
+tasks:
+  - say: walk to the table
+    expect: done
+  - say: pick up the water bottle
+    expect: done
+  - say: put it on the nightstand
+    expect: done
+  - say: put the book on the chair            # the chair is tucked under the table: no room on its seat
+    expect: failed
+  - say: pull out the chair
+    expect: done
+  - say: pick up the book and put it on the chair
+    expect: done
+  - say: put the box on the table
+    expect: done
+  - say: pick up the table                     # static furniture
+    expect: refused
+  - say: put the water bottle on the poster    # a poster is not a surface
+    expect: refused
+  - say: pick up the lamp                      # there is no lamp
+    expect: refused
+  - say: climb on the table                    # not a skill (yet)
+    expect: refused
+  - say: pick up the heavy box                 # 40 kg: the record allows lifting, the arm can't (15 kg)
+    expect: failed
+  - say: grab the bottle and put it on the floor
+    expect: done

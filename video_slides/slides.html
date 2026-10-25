@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RealGrounds Video Slides</title>
+<style>
+:root { --bg: #101C25; --mint: #A6EAB8; --white: #F4F7F8; --dim: #8FA3AE; --line: rgba(166, 234, 184, .22); }
+* { box-sizing: border-box; margin: 0; }
+html, body { background: #05090c; }
+body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif; color: var(--white); }
+.slide { width: 1920px; height: 1080px; background: var(--bg); position: relative; overflow: hidden; display: none; padding: 0 180px; }
+.slide.on { display: flex; flex-direction: column; justify-content: center; }
+/* subtle technical lines */
+.slide::before { content: ""; position: absolute; inset: 0; background:
+  linear-gradient(var(--line), var(--line)) 120px 0 / 1px 100% no-repeat,
+  linear-gradient(var(--line), var(--line)) 0 980px / 100% 1px no-repeat; opacity: .55; }
+.corner { position: absolute; right: 120px; top: 120px; width: 120px; height: 120px; border-top: 1.5px solid var(--line); border-right: 1.5px solid var(--line); }
+.brand { position: absolute; left: 180px; top: 72px; display: flex; align-items: center; gap: 14px; font-size: 26px; font-weight: 600; letter-spacing: .01em; }
+.num { position: absolute; right: 180px; top: 76px; font-size: 22px; color: var(--dim); font-variant-numeric: tabular-nums; letter-spacing: .12em; }
+.foot { position: absolute; left: 180px; bottom: 44px; font-size: 18px; color: var(--dim); letter-spacing: .14em; text-transform: uppercase; }
+.kicker { font-size: 24px; letter-spacing: .22em; text-transform: uppercase; color: var(--mint); margin-bottom: 34px; font-weight: 600; }
+h1 { font-size: 112px; line-height: 1.04; font-weight: 700; letter-spacing: -.025em; }
+h2 { font-size: 88px; line-height: 1.08; font-weight: 600; letter-spacing: -.02em; color: var(--mint); margin-top: 12px; }
+.sub { font-size: 34px; line-height: 1.45; color: var(--dim); margin-top: 54px; max-width: 1300px; }
+.flow { display: flex; align-items: center; gap: 34px; margin-top: 90px; }
+.step { border: 1.5px solid var(--line); border-radius: 18px; padding: 30px 40px; font-size: 30px; font-weight: 650; letter-spacing: .14em; min-width: 300px; text-align: center; }
+.step small { display: block; font-size: 17px; letter-spacing: .2em; color: var(--mint); margin-bottom: 10px; font-weight: 600; }
+.arrow { font-size: 44px; color: var(--mint); }
+.flow.compact .step { min-width: 0; padding: 22px 32px; font-size: 26px; }
+.flow.compact { margin-top: 64px; gap: 24px; }
+.grid4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px 80px; margin-top: 80px; max-width: 1400px; }
+.ind { display: flex; align-items: center; gap: 24px; font-size: 40px; font-weight: 550; }
+.ind i { width: 18px; height: 18px; border: 2.5px solid var(--mint); border-radius: 5px; flex: none; }
+.metrics { display: flex; gap: 140px; margin-top: 10px; }
+.metric b { display: block; font-size: 190px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.metric b span { color: var(--mint); }
+.metric div { font-size: 30px; color: var(--dim); margin-top: 18px; max-width: 520px; line-height: 1.35; }
+.vision { font-size: 38px; margin-top: 90px; color: var(--white); }
+.close { margin-top: 70px; padding-top: 44px; border-top: 1.5px solid var(--line); display: flex; align-items: baseline; gap: 40px; }
+.close strong { font-size: 54px; font-weight: 700; }
+.close span { font-size: 32px; color: var(--mint); }
+/* slideshow preview (not in the PNGs) */
+body.show { display: grid; place-items: center; height: 100vh; overflow: hidden; }
+body.show .slide { transform-origin: center; }
+.hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); color: #6b7c86; font-size: 13px; }
+</style>
+</head>
+<body>
+<!-- the logo mark: a solid square and its dashed copy (the experiment before the real thing) -->
+<svg width="0" height="0" style="position:absolute"><symbol id="logo" viewBox="0 0 64 64">
+  <rect x="22" y="4" width="38" height="38" rx="9" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="7 6"/>
+  <rect x="4" y="22" width="38" height="38" rx="9" fill="currentColor"/></symbol></svg>
+
+<section class="slide" data-n="1">
+  <div class="brand"><svg width="34" height="34"><use href="#logo"/></svg>RealGrounds</div><div class="num">01 / 05</div><div class="corner"></div>
+  <div class="kicker">The problem</div>
+  <h1>AI can see the world.</h1>
+  <h2>But can it predict what happens next?</h2>
+  <p class="sub">Understanding a scene is not the same as understanding physical consequences.</p>
+  <div class="foot">c0mpiled-16</div>
+</section>
+
+<section class="slide" data-n="2">
+  <div class="brand"><svg width="34" height="34"><use href="#logo"/></svg>RealGrounds</div><div class="num">02 / 05</div><div class="corner"></div>
+  <div class="kicker">The solution</div>
+  <h1>From photos to physics.</h1>
+  <div class="flow">
+    <div class="step"><small>01</small>REAL PHOTO</div><div class="arrow">→</div>
+    <div class="step"><small>02</small>3D WORLD</div><div class="arrow">→</div>
+    <div class="step"><small>03</small>PHYSICS SIMULATION</div>
+  </div>
+  <p class="sub">AI can test physical actions before making decisions.</p>
+  <div class="foot">c0mpiled-16</div>
+</section>
+
+<section class="slide" data-n="3">
+  <div class="brand"><svg width="34" height="34"><use href="#logo"/></svg>RealGrounds</div><div class="num">03 / 05</div><div class="corner"></div>
+  <div class="kicker">Autonomous experimentation</div>
+  <h1>AI doesn't just guess.</h1>
+  <h2>It tries.</h2>
+  <div class="flow compact">
+    <div class="step">OBSERVE</div><div class="arrow">→</div><div class="step">TRY</div><div class="arrow">→</div>
+    <div class="step">MEASURE</div><div class="arrow">→</div><div class="step">COMMIT</div>
+  </div>
+  <p class="sub">Test actions in a sandbox. Measure simulated outcomes. Keep successful changes.</p>
+  <div class="foot">c0mpiled-16</div>
+</section>
+
+<section class="slide" data-n="4">
+  <div class="brand"><svg width="34" height="34"><use href="#logo"/></svg>RealGrounds</div><div class="num">04 / 05</div><div class="corner"></div>
+  <div class="kicker">Track 3 · Unsupervised</div>
+  <h1>Autonomous. Not uncontrolled.</h1>
+  <div class="grid4">
+    <div class="ind"><i></i>Detects stuck conditions</div>
+    <div class="ind"><i></i>Prevents repeated failures</div>
+    <div class="ind"><i></i>Enforces budgets</div>
+    <div class="ind"><i></i>Stops or requests help</div>
+  </div>
+  <p class="sub">An independent supervisor controls execution.</p>
+  <div class="foot">c0mpiled-16</div>
+</section>
+
+<section class="slide" data-n="5">
+  <div class="brand"><svg width="34" height="34"><use href="#logo"/></svg>RealGrounds</div><div class="num">05 / 05</div><div class="corner"></div>
+  <div class="kicker">Results</div>
+  <div class="metrics">
+    <div class="metric"><b>44<span>/44</span></b><div>Automated tests passed</div></div>
+    <div class="metric"><b>6<span>/6</span></b><div>Simulated solutions re-checked successfully</div></div>
+  </div>
+  <p class="vision">Building toward autonomous physical-world testing for robotics teams.</p>
+  <div class="close"><strong>RealGrounds</strong><span>Give AI a place to experiment. Before it touches the real world.</span></div>
+  <div class="foot">c0mpiled-16</div>
+</section>
+
+<div class="hint" id="hint">← → to change slides</div>
+<script>
+// slides.html#3 shows slide 3 at full size (used for the PNG export); without a hash: a scaled slideshow
+const slides = [...document.querySelectorAll(".slide")];
+const exportMode = /^#\d$/.test(location.hash);
+let i = exportMode ? +location.hash[1] - 1 : 0;
+function show() {
+  slides.forEach((s, k) => s.classList.toggle("on", k === i));
+  if (!exportMode) {
+    const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+    slides[i].style.transform = `scale(${k})`;
+    slides[i].style.margin = `${(innerHeight - 1080) / 2}px ${(innerWidth - 1920) / 2}px`;
+  }
+}
+if (exportMode) document.getElementById("hint").remove(); else document.body.classList.add("show");
+addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === " ") i = Math.min(i + 1, 4); if (e.key === "ArrowLeft") i = Math.max(i - 1, 0); show(); });
+addEventListener("click", () => { i = (i + 1) % 5; show(); });
+addEventListener("resize", show);
+show();
+</script>
+</body>
+</html>

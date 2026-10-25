@@ -1,0 +1,94 @@
+# Settings for building a room from photos (build_room.py, realgrounds/room.py).
+seed: 0
+analysis_width: 1024          # photos are analysed at this width (pixels)
+max_side: 1600                # photos are loaded at most this big
+default_fov_deg: 70           # lens when camera.yaml / EXIF don't say (typical phone ~ 70 deg)
+
+models:
+  moge_dir: models/moge-2-vitl-normal       # MoGe-2 (MIT): metric depth AND the lens, from one photo
+  segformer_dir: models/segformer-b0-ade                  # walls / floor / ceiling
+  grounding_dino_dir: models/grounding-dino-base          # find objects by name
+  sam_dir: models/sam-vit-base                            # exact outlines
+  device: auto
+
+detector:
+  vocabulary: [base, benchmark]   # catalog kinds the detector asks for (by their 'vocab' tag; untagged = base)
+  words_per_pass: 8           # Grounding DINO is more accurate with short word lists
+  groups:                     # similar things in the same pass, so the detector chooses between them
+    - [bed, loft_bed, mattress, desk, table, chair, dresser, nightstand]
+    - [wardrobe, shelf, door, window, ladder, mini_fridge, trash_can, curtain]
+    - [backpack, tote_bag, duffel_bag, plastic_bag, box, storage_bin]
+    - [pillow, blanket, stuffed_toy, clothes, towel, shoes]
+    - [laptop, monitor, keyboard, mouse, speaker, computer_tower, phone, headphones, fan, lamp]
+    - [rug, mouse_pad]               # mats: a floor rug vs a desk mat
+    - [book, notebook, water_bottle, cup, picture_frame, poster, calendar, camera_lens]
+    - [plant, container, string_lights, ceiling_light]
+    - [cabinet, counter, refrigerator, stove, dishwasher, sink, microwave]   # kitchen (room benchmark)
+    - [sofa, ottoman, tv, toilet, bathtub, mirror, whiteboard, clock]      # living room / bathroom / walls
+    - [paper, printer]
+  box_threshold: 0.27
+  text_threshold: 0.25
+  duplicate_iou: 0.8          # same box found under two names -> keep the stronger
+  same_pixels_max: 0.6        # an outline mostly inside a stronger one's outline = the same thing
+  second_look: true           # kinds not found in their group are asked again alone (adds only)
+  second_look_min: 0.4        # ...and need this much confidence (or their min_score, if higher)
+  second_look_extra: 0.1      # ...plus this for classes with a min_score (asked alone, scores run higher)
+  rename_margin: 0.1          # name check: another word must beat the current name by this much on the crop
+  context_look:               # things that come in pairs: accepted with context_min when the partner is right there
+    chair: [desk, table]
+    keyboard: [monitor, laptop]
+  context_min: 0.3
+  context_bonus: 0.1          # ...and outrank other names for the same pixels by this much
+  min_score:                  # classes that produced false alarms in testing need more confidence
+    chair: 0.42
+    mouse: 0.45
+    clothes: 0.40
+    container: 0.35
+    mini_fridge: 0.5           # storage under beds looked like fridges
+    laptop: 0.45               # a big desk mat under the keyboard looked like a laptop (0.41)
+
+geometry:
+  max_depth_m: 15
+  max_tilt_deg: 35            # floor normal must be within this of "up" (camera roughly level)
+  max_surface_tilt_deg: 55    # desk/bed tops: close-up photos look down more steeply
+  min_floor_fraction: 0.03    # this much visible floor -> use the floor itself for "up"
+  plane_thresh_m: 0.03
+  assumed_camera_height_m: 1.4
+  snap_m: 0.08                # pixels this close to floor / wall / ceiling are snapped onto it
+  max_walls: 4
+  min_wall_points: 800
+  snap_deg: 12                # walls within this of a right angle are made exactly square
+  min_ceiling_px: 500
+  default_ceiling_m: 2.5
+  box_pct: 3                  # object boxes use the 3rd..97th percentile of their points (noise)
+  support_tol_m: 0.08         # "rests on": bottom within this of the support's top
+  support_prior: true         # choose what things rest on by geometry AND common sense (toolkit/support.py)
+  support_sigma_m: 0.08       # ...how far a bottom may sit from a surface's top (1 sigma)
+  support_above_max_m: 0.35   # ...at most this high above it (a monitor's unseen stand)
+  support_below_max_m: 0.25   # ...at most this far sunk into it (soft supports, depth smear)
+  support_min_overlap: 0.3    # ...this share of its footprint over the surface (or its centre)
+  support_prior_alpha: 5      # ...how much the counts are smoothed for kinds with few examples
+  floor_tol_m: 0.15
+  next_to_gap_m: 0.25
+  wall_tol_m: 0.15
+  hang_gap_m: 0.12           # resting on nothing but this close to furniture = hanging on it
+  hang_min_m: 0.3            # ...and at least this high (things lower than that are on the floor/a surface)
+  support_loose_m: 0.2       # second, looser try for 'rests on' (soft things sink in)
+  loft_min_top_m: 1.3        # a 'bed' reaching higher is a loft bed
+  support_to_wall_m: 0.4     # beds/desks this close to a wall are extended to touch it
+  support_to_wall_inferred_m: 0.7  # ...this close when their back was never seen (only a typical size)
+  raised_max_m: 0.8          # a surface floating lower than this rests on a hidden frame
+  scale_from_furniture: false  # rescale depth from standard furniture heights: a patch for the previous depth
+                              # model; with MoGe-2 it made sizes worse (room benchmark, 0 % -> 38 % of rooms 15 %+ off)
+  scale_clamp: [0.6, 1.5]
+  typical_ceiling_m: 2.5     # scale reference when the ceiling is seen
+  max_size_factor: 1.5        # objects never longer than 1.5x their catalog size (depth smear)
+  min_footprint_frac: 0.6     # rigid things never thinner sideways than 0.6x their catalog's smaller side (occlusion)
+
+multi_view:                   # several photos of the same room
+  align_features: 4000
+  align_min_inliers: 15
+  align_min_ratio: 0.25
+  align_iters: 2000
+  align_thresh_m: 0.15
+  same_object_m: 0.35         # same kind within this distance (or half its size) = the same object

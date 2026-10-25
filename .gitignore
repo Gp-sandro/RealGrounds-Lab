@@ -1,0 +1,19 @@
+__pycache__/
+.cache/
+.DS_Store
+outputs/
+# models are large (downloaded once by hand - see README)
+models/*
+!models/.gitkeep
+# photos of people's rooms stay local
+inputs/**/*.jpg
+inputs/**/*.jpeg
+inputs/**/*.png
+inputs/**/*.heic
+inputs/**/*.HEIC
+# secrets (API keys) never go into git
+.env
+.env.*
+# stray photos in the project root (unknown source) stay local
+/*.jpeg
+/*.jpg

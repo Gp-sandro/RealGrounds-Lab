@@ -1,0 +1,23 @@
+# One session in the real dorm, zone 2 (ladder side, photo IMG_9662): a loft bed with a ladder,
+# the lower bed under it, a storage bin under that. expect: done / refused / failed.
+tasks:
+  - say: walk to the ladder
+    expect: done
+  - say: pick up the plastic bag               # lies on the lower bed, under the loft
+    expect: done
+  - say: put it on the floor
+    expect: done
+  - say: take the tote bag and put it on the floor   # hangs on the loft bed's rail: taken from the side, off the hook
+    expect: done
+  - say: put the plastic bag on the bed        # back onto the lower bed: lowered, then slid in under the loft
+    expect: done
+  - say: put the pillow on the storage bin     # the bin is under the bed: no room on top of it
+    expect: failed
+  - say: pull out the storage bin              # deep under the bed, behind the ladder: nowhere to stand within reach
+    expect: failed
+  - say: put the backpack on the loft bed      # too high for the hand with the backpack
+    expect: failed
+  - say: pick up the ladder                    # static
+    expect: refused
+  - say: climb the ladder                      # not a skill (yet)
+    expect: refused

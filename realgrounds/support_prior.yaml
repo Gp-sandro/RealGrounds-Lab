@@ -1,0 +1,604 @@
+about: 'How often each kind rests on (''below'') or is held from behind by (''behind'') each supporter, counted from 569 verified TRAIN photos
+  of datasets/rooms_nyu (6397 relations). ''other'' = a supporter outside our vocabulary. Rebuild: python datasets/tools/support_prior.py'
+below:
+  backpack:
+    sofa: 3
+    floor: 3
+    bed: 2
+    shelf: 1
+  bathtub:
+    floor: 15
+    counter: 1
+  bed:
+    floor: 157
+    bed: 4
+    cabinet: 2
+    shelf: 1
+  blanket:
+    sofa: 20
+    bed: 10
+    floor: 4
+    cabinet: 4
+    blanket: 2
+    chair: 2
+    desk: 1
+    ottoman: 1
+    clothes: 1
+    pillow: 1
+    book: 1
+  book:
+    shelf: 221
+    table: 70
+    book: 46
+    desk: 45
+    nightstand: 23
+    cabinet: 14
+    floor: 11
+    dresser: 10
+    bed: 8
+    other: 7
+    counter: 4
+    paper: 3
+    box: 2
+    container: 1
+    toilet: 1
+    wall: 1
+    sofa: 1
+    pillow: 1
+    chair: 1
+    tote_bag: 1
+  box:
+    floor: 37
+    shelf: 22
+    table: 15
+    desk: 14
+    box: 11
+    counter: 8
+    dresser: 8
+    cabinet: 8
+    bed: 6
+    nightstand: 6
+    refrigerator: 3
+    other: 3
+    sofa: 2
+    toilet: 2
+    paper: 2
+    speaker: 2
+    book: 2
+    wall: 1
+  cabinet:
+    floor: 276
+    counter: 6
+    cabinet: 4
+    chair: 2
+    other: 1
+    desk: 1
+    trash_can: 1
+    wall: 1
+  calendar:
+    table: 1
+  ceiling_light:
+    dresser: 1
+    table: 1
+  chair:
+    floor: 481
+    rug: 12
+    table: 2
+    chair: 1
+  clock:
+    nightstand: 4
+    desk: 3
+    shelf: 2
+    counter: 1
+    other: 1
+    dresser: 1
+  clothes:
+    bed: 34
+    floor: 22
+    sofa: 14
+    chair: 13
+    other: 9
+    dresser: 8
+    counter: 6
+    clothes: 6
+    cabinet: 5
+    shelf: 4
+    blanket: 3
+    table: 3
+    container: 2
+    desk: 2
+    cup: 1
+    nightstand: 1
+    towel: 1
+  computer_tower:
+    floor: 12
+    desk: 8
+    table: 6
+    shelf: 1
+  container:
+    counter: 70
+    shelf: 43
+    table: 32
+    floor: 31
+    cabinet: 10
+    other: 9
+    desk: 4
+    sink: 3
+    container: 3
+    dresser: 2
+    toilet: 2
+    cup: 1
+    dishwasher: 1
+    microwave: 1
+    nightstand: 1
+  counter:
+    cabinet: 114
+    dishwasher: 10
+    floor: 8
+    wall: 5
+    counter: 3
+    dresser: 3
+    shelf: 1
+    refrigerator: 1
+  cup:
+    counter: 33
+    table: 17
+    shelf: 12
+    desk: 9
+    sink: 9
+    other: 9
+    cabinet: 7
+    floor: 3
+    cup: 2
+    dresser: 1
+    nightstand: 1
+    bed: 1
+    window: 1
+    stove: 1
+    container: 1
+  curtain:
+    floor: 8
+    wall: 2
+    counter: 1
+    paper: 1
+    bed: 1
+    cabinet: 1
+  desk:
+    floor: 75
+    desk: 3
+    rug: 1
+    cabinet: 1
+  dishwasher:
+    floor: 25
+  door:
+    floor: 104
+    bathtub: 2
+    cabinet: 1
+    counter: 1
+    wall: 1
+  dresser:
+    floor: 46
+    counter: 2
+    bed: 1
+  duffel_bag:
+    floor: 5
+    duffel_bag: 1
+    sofa: 1
+  fan:
+    floor: 7
+    toilet: 1
+    nightstand: 1
+    table: 1
+    desk: 1
+    shelf: 1
+  headphones:
+    desk: 1
+  keyboard:
+    desk: 17
+    table: 4
+    counter: 2
+    shelf: 1
+    cup: 1
+  ladder:
+    floor: 6
+  lamp:
+    nightstand: 41
+    floor: 30
+    table: 21
+    desk: 16
+    cabinet: 8
+    dresser: 7
+    bed: 2
+    other: 2
+    shelf: 2
+    counter: 1
+    book: 1
+    chair: 1
+    container: 1
+    wall: 1
+  laptop:
+    desk: 3
+    table: 3
+    cup: 1
+    cabinet: 1
+  loft_bed:
+    floor: 2
+  mattress:
+    floor: 6
+  microwave:
+    counter: 6
+    cabinet: 3
+    refrigerator: 1
+    table: 1
+    microwave: 1
+  mirror:
+    floor: 10
+    counter: 5
+    wall: 2
+    box: 1
+  monitor:
+    desk: 31
+    table: 6
+    counter: 5
+    computer_tower: 2
+    shelf: 1
+    floor: 1
+    cup: 1
+  mouse:
+    desk: 15
+    table: 3
+    counter: 2
+    chair: 1
+    floor: 1
+  mouse_pad:
+    table: 1
+  nightstand:
+    floor: 60
+    bed: 1
+  notebook:
+    desk: 6
+    table: 4
+    paper: 2
+    notebook: 2
+    bed: 1
+    other: 1
+  ottoman:
+    floor: 10
+    rug: 9
+  paper:
+    desk: 57
+    table: 29
+    counter: 27
+    shelf: 14
+    other: 10
+    cabinet: 9
+    nightstand: 8
+    floor: 8
+    bed: 5
+    dresser: 5
+    sofa: 5
+    paper: 4
+    printer: 3
+    book: 3
+    chair: 2
+    tote_bag: 2
+  phone:
+    desk: 7
+    table: 4
+    nightstand: 4
+    counter: 3
+    paper: 2
+    other: 2
+    computer_tower: 1
+    dresser: 1
+  picture_frame:
+    shelf: 59
+    table: 28
+    floor: 28
+    desk: 24
+    dresser: 23
+    cabinet: 15
+    other: 11
+    counter: 10
+    nightstand: 8
+    wall: 4
+    chair: 2
+    bed: 2
+    sofa: 2
+    box: 1
+  pillow:
+    bed: 181
+    sofa: 122
+    pillow: 14
+    floor: 7
+    chair: 3
+    other: 3
+    clothes: 3
+    loft_bed: 3
+    shelf: 2
+    desk: 1
+    mattress: 1
+    table: 1
+  plant:
+    counter: 20
+    floor: 16
+    table: 16
+    plant: 15
+    other: 10
+    shelf: 10
+    cabinet: 6
+    desk: 3
+    printer: 2
+    ceiling: 1
+    sofa: 1
+    dresser: 1
+    nightstand: 1
+    bed: 1
+  printer:
+    desk: 10
+    table: 9
+    cabinet: 5
+    nightstand: 2
+    counter: 2
+    floor: 2
+    shelf: 1
+  refrigerator:
+    floor: 30
+  rug:
+    floor: 62
+    counter: 2
+    wall: 1
+    table: 1
+    cabinet: 1
+    rug: 1
+  shelf:
+    floor: 107
+    wall: 3
+    cabinet: 2
+    water_bottle: 1
+    cup: 1
+    table: 1
+    trash_can: 1
+    counter: 1
+    bathtub: 1
+    desk: 1
+  shoes:
+    floor: 21
+    shelf: 7
+    cabinet: 1
+  sink:
+    counter: 60
+    cabinet: 6
+    floor: 6
+    other: 1
+    dresser: 1
+  sofa:
+    floor: 141
+    rug: 13
+    sofa: 2
+    clothes: 1
+  speaker:
+    floor: 14
+    desk: 7
+    table: 3
+    shelf: 2
+    counter: 2
+    speaker: 2
+    dresser: 1
+    other: 1
+    window: 1
+    wall: 1
+    cabinet: 1
+    nightstand: 1
+  storage_bin:
+    shelf: 9
+    floor: 7
+    storage_bin: 3
+    other: 1
+    sink: 1
+    counter: 1
+  stove:
+    floor: 16
+    stove: 11
+    counter: 8
+    cabinet: 2
+    container: 1
+    other: 1
+  stuffed_toy:
+    shelf: 17
+    floor: 15
+    bed: 5
+    cabinet: 4
+    dresser: 4
+    table: 3
+    desk: 2
+    window: 1
+    counter: 1
+    book: 1
+    tv: 1
+  table:
+    floor: 214
+    rug: 16
+    table: 1
+    shelf: 1
+    chair: 1
+  toilet:
+    floor: 38
+    cabinet: 1
+  tote_bag:
+    floor: 30
+    counter: 18
+    bed: 7
+    chair: 5
+    storage_bin: 4
+    desk: 3
+    cabinet: 3
+    nightstand: 3
+    shelf: 2
+    table: 2
+    dresser: 2
+    box: 1
+    tote_bag: 1
+    sofa: 1
+  towel:
+    counter: 22
+    shelf: 7
+    floor: 6
+    towel: 5
+    other: 4
+    cabinet: 3
+    table: 2
+    wall: 1
+    microwave: 1
+    sink: 1
+    chair: 1
+    sofa: 1
+    blanket: 1
+  trash_can:
+    floor: 62
+  tv:
+    dresser: 7
+    cabinet: 6
+    other: 5
+    shelf: 4
+    table: 3
+    counter: 1
+    desk: 1
+    floor: 1
+  water_bottle:
+    counter: 132
+    shelf: 36
+    table: 25
+    desk: 23
+    cabinet: 19
+    bathtub: 17
+    sink: 14
+    nightstand: 13
+    other: 11
+    refrigerator: 7
+    dresser: 6
+    toilet: 3
+    bed: 2
+    cup: 1
+    floor: 1
+    water_bottle: 1
+    box: 1
+  window:
+    floor: 10
+    wall: 5
+    shelf: 2
+    counter: 2
+    cabinet: 2
+    desk: 1
+behind:
+  backpack:
+    other: 8
+    backpack: 3
+  bed:
+    wall: 1
+  book:
+    wall: 1
+  box:
+    wall: 1
+  cabinet:
+    wall: 77
+    cabinet: 4
+    microwave: 2
+    shelf: 2
+  ceiling_light:
+    ceiling: 27
+    wall: 11
+    cabinet: 2
+    whiteboard: 1
+  clock:
+    wall: 3
+    other: 1
+  clothes:
+    shelf: 4
+    cabinet: 1
+    door: 1
+  container:
+    table: 1
+    wall: 1
+    mirror: 1
+  counter:
+    wall: 1
+  cup:
+    wall: 1
+  curtain:
+    wall: 124
+    window: 2
+    ceiling: 1
+    door: 1
+  door:
+    wall: 15
+    floor: 1
+  dresser:
+    cabinet: 7
+    shelf: 1
+  fan:
+    ceiling: 2
+    wall: 1
+  lamp:
+    wall: 2
+  microwave:
+    wall: 10
+    cabinet: 1
+  mirror:
+    wall: 42
+    door: 1
+  paper:
+    other: 19
+    wall: 7
+    refrigerator: 5
+    cabinet: 4
+    shelf: 1
+    desk: 1
+  phone:
+    wall: 4
+  picture_frame:
+    wall: 378
+    desk: 3
+    table: 1
+    door: 1
+  pillow:
+    wall: 2
+  plant:
+    wall: 2
+  shelf:
+    wall: 26
+    shelf: 9
+    other: 1
+  sink:
+    wall: 4
+  sofa:
+    wall: 4
+  speaker:
+    wall: 2
+  stove:
+    cabinet: 2
+    stove: 1
+    wall: 1
+  tote_bag:
+    wall: 75
+    door: 1
+    desk: 1
+  towel:
+    wall: 28
+    other: 12
+    door: 4
+    cabinet: 4
+    stove: 3
+    refrigerator: 1
+    sink: 1
+  tv:
+    wall: 5
+  water_bottle:
+    wall: 2
+    window: 1
+  whiteboard:
+    wall: 9
+    whiteboard: 1
+  window:
+    wall: 73
+    window: 2

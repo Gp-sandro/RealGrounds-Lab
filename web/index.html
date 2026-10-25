@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="RealGrounds: real rooms from one photo, rebuilt in physics, where AI agents test actions on their own and know when to stop.">
+<title>RealGrounds Lab</title>
+<link rel="stylesheet" href="/web/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#overview" aria-label="RealGrounds home"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="22" y="4" width="38" height="38" rx="9" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="7 6"/><rect x="4" y="22" width="38" height="38" rx="9" fill="currentColor"/></svg>RealGrounds</a>
+    <nav id="nav" aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#lab">Live Lab</a>
+      <a href="#safety">Safety</a>
+      <a href="#results">Results</a>
+    </nav>
+    <div class="pill" id="budget" title="The app's own supervisor: Claude is refused once this budget is spent">Claude budget …</div>
+  </div>
+</header>
+
+<main>
+<!-- ================================================================ OVERVIEW -->
+<section class="view" id="view-overview">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">c0mplied-16 · Track 3 · Unsupervised AI agents</p>
+        <h1>Give AI a place to experiment.</h1>
+        <p class="lead">RealGrounds rebuilds a real room from one ordinary photo: every object is measured, placed and
+          loaded into a physics engine. An AI agent then works in that copy on its own. It tests each action on a
+          snapshot, keeps only what measurably helps, and stops or asks for help when it should.</p>
+        <div class="cta">
+          <a class="btn primary" href="#experiments">Explore Demo</a>
+          <button class="btn" id="cta-upload">Upload a Photo</button>
+        </div>
+        <p class="fine">Simulation only. Every result is labelled as simulated; nothing here claims a real-world outcome.</p>
+      </div>
+      <div class="loop" aria-label="How an agent works here">
+        <ol>
+          <li><b>Propose</b><span>Claude (or fixed rules) suggests actions in plain English</span></li>
+          <li><b>Try on a snapshot</b><span>run in physics, measured, then undone, checked bit for bit</span></li>
+          <li><b>Measure the goal</b><span>geometry and contacts decide, never the AI's opinion</span></li>
+          <li><b>Keep or stop</b><span>the supervisor keeps only measurable progress, and stops when stuck, impossible or out of budget</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="metrics" id="metrics" aria-live="polite"><div class="skeleton">Loading measured results …</div></div>
+
+    <h2 class="sec">From one photo to physics</h2>
+    <p class="sec-sub" id="pipe-sub">A real room from the NYU Depth V2 dataset, never seen during development of these steps.</p>
+    <div class="pipeline" id="pipeline"></div>
+
+    <div class="truths">
+      <div><h3>Two kinds of scenes</h3><p><span class="src hand">hand-made</span> test rooms show the stop rules
+        with known answers. <span class="src photo">photo-built</span> rooms come from real photos, so their sizes
+        are estimates.</p></div>
+      <div><h3>Simulated, not real-world</h3><p>A solved task is a plan that works in the simulated copy. Nothing has
+        been validated in a real room yet.</p></div>
+      <div><h3>Estimates are labelled</h3><p>Sizes come from depth, masses from a catalog of typical values, test values
+        are marked as set by hand. The interface shows which is which.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ EXPERIMENTS -->
+<section class="view" id="view-experiments">
+  <div class="wrap">
+    <p class="eyebrow">Experiments · <span class="src hand">hand-made test scenes</span></p>
+    <h2 class="page">Three rooms, one task</h2>
+    <p class="sec-sub">The task is the same in each room: <b>walk through the gap to the far side</b>. Only what blocks
+      the gap changes. Each card replays a recorded run of the real backend; <b>Run live</b> runs it again now.</p>
+    <div class="exp-grid" id="exp-grid"><div class="skeleton">Loading recorded runs …</div></div>
+    <div class="detail hidden" id="exp-detail"></div>
+  </div>
+</section>
+
+<!-- ================================================================ LIVE LAB -->
+<section class="view" id="view-lab">
+  <div class="wrap">
+    <p class="eyebrow">Live Lab</p>
+    <h2 class="page">Try it on a real room</h2>
+    <p class="sec-sub">Pick a room rebuilt from a photo, or upload your own. Give the agent a task and watch it work. Every
+      task runs on the real backend.</p>
+
+    <div class="card step">
+      <div class="step-n">1</div>
+      <div class="step-body">
+        <h3>Choose a room, or photograph one</h3>
+        <div class="row">
+          <label class="grow">Room <select id="room"></select></label>
+          <label class="file btn">Upload a photo<input type="file" id="photo" accept="image/*,.heic,.HEIC"></label>
+        </div>
+        <div id="build" class="progress hidden"></div>
+      </div>
+    </div>
+
+    <div id="roomview" class="hidden">
+      <div class="card step">
+        <div class="step-n">2</div>
+        <div class="step-body">
+          <h3>What it measured <span class="src" id="room-src"></span></h3>
+          <div class="figs" id="imgs"></div>
+          <p class="muted" id="roommeta"></p>
+          <div class="legend"><span class="prov seen">observed</span> in the photo ·
+            <span class="prov est">estimated</span> from depth or a catalog ·
+            <span class="prov hand">set by hand</span> test values</div>
+          <details open><summary>Objects (<span id="nobj">0</span>)</summary>
+            <div class="scroll"><table id="objects" class="tbl"></table></div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card step">
+        <div class="step-n">3</div>
+        <div class="step-body">
+          <h3>Give it a task</h3>
+          <div class="row">
+            <label>Task
+              <select id="kind">
+                <option value="rests_on">put an object on something</option>
+                <option value="reach">get within reach of an object</option>
+                <option value="route">walk across the room</option>
+              </select>
+            </label>
+            <label id="objwrap">Object <select id="obj"></select></label>
+            <label id="tgtwrap">onto <select id="tgt"></select></label>
+          </div>
+          <div class="row">
+            <button class="btn ghost" id="suggest">Ask Claude for task ideas</button>
+            <div id="ideas" class="chips"></div>
+          </div>
+          <details class="settings"><summary>Settings: planner, budget, attempts</summary>
+            <div class="row">
+              <label>Planner <select id="planner"><option value="claude">Claude</option><option value="rules">fixed rules (no AI, free)</option></select></label>
+              <label>Model <select id="model"></select></label>
+              <label>Money per task <select id="usd"><option>0.05</option><option>0.01</option><option>0.002</option><option>0.0005</option></select></label>
+              <label>Max tries <select id="tries"><option>12</option><option>6</option><option>2</option><option>1</option></select></label>
+              <label class="check"><input type="checkbox" id="video" checked> record video</label>
+            </div>
+            <p class="muted">A tiny budget or a single try makes the supervisor stop early. Watch it explain why.</p>
+          </details>
+          <button class="btn primary" id="go">Run the task</button>
+        </div>
+      </div>
+
+      <div id="runcard" class="card step hidden">
+        <div class="step-n">4</div>
+        <div class="step-body">
+          <h3>What happened</h3>
+          <div id="run-progress" class="progress hidden"></div>
+          <div id="result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ SAFETY -->
+<section class="view" id="view-safety">
+  <div class="wrap">
+    <p class="eyebrow">Autonomous safety</p>
+    <h2 class="page">How it knows when to stop</h2>
+    <p class="sec-sub">The AI only proposes. A separate supervisor decides what is tried, what is kept and when to stop,
+      from measurements. It works at three levels: each <b>task</b>, each unattended <b>run</b>, and this <b>app</b>
+      (its Claude budget, top right). Every card below shows its evidence: automated tests and real runs.</p>
+    <div class="rules" id="rules"><div class="skeleton">Loading evidence …</div></div>
+    <div class="detail hidden" id="safety-detail"></div>
+  </div>
+</section>
+
+<!-- ================================================================ RESULTS -->
+<section class="view" id="view-results">
+  <div class="wrap">
+    <p class="eyebrow">Research results</p>
+    <h2 class="page">What we measured</h2>
+    <p class="sec-sub">Everything below comes from this repository's tests and run logs (also written up in RESULTS.md).
+      All agent outcomes are <b>simulated</b>.</p>
+
+    <div class="card"><div class="card-head"><h3>Automated tests</h3><button class="btn primary" id="runtests">Run all tests</button></div>
+      <div id="tests"></div></div>
+
+    <div class="card"><div class="card-head"><h3>Re-checked solutions</h3></div>
+      <p class="muted">The physics is deterministic, so a solved task can be re-checked: replay only the kept actions on a
+        fresh copy of the room and measure the goal again.</p><div id="verify"></div></div>
+
+    <div class="card"><div class="card-head"><h3>Unattended evaluations on real rooms</h3>
+      <div class="row tight"><label>Rooms <select id="nrooms"><option>3</option><option>5</option><option>10</option></select></label>
+      <button class="btn" id="startrun">Start a small run</button></div></div>
+      <p class="muted">Each run builds rooms from <span class="src photo">photos</span> (NYU Depth V2, one photo per room),
+        has Claude write tasks, proves them, and stops a task, or the whole run, when it should.</p>
+      <div id="nightprog" class="progress hidden"></div>
+      <div id="runs"></div></div>
+
+    <div class="card"><div class="card-head"><h3>Recorded agent runs</h3></div>
+      <p class="muted">Every task run from this app, successful or not.</p><div id="appruns"></div></div>
+
+    <div class="two">
+      <div class="card"><h3>Understanding a room from one photo</h3><div id="bench"></div></div>
+      <div class="card"><h3>Doing what it is told, checked by physics</h3><div id="cmds"></div></div>
+    </div>
+
+    <div class="card"><h3>Assumptions, failure cases and limitations</h3>
+      <ul class="limits">
+        <li><b>No real-world validation yet.</b> Every outcome is in a simulated copy of the room.</li>
+        <li><b>Rooms are simplified.</b> About half of the objects are found, objects are boxes, and one photo shows only part of a room.</li>
+        <li><b>Masses are catalog typical values</b> ("[typical]"); the heavy box's 40 kg is a test value set by hand.</li>
+        <li><b>Failure case, our own photo:</b> in a dorm room, Claude wrote 3 tasks. One was already true and two were stopped correctly (no free floor in reach; a bag boxed in), with none solved.</li>
+        <li><b>A fixed error:</b> one early "impossible" verdict was wrong (reach measured from an object's centre). Reach now uses the body's arm reach, and a test covers it.</li>
+        <li><b>The loop detector has not triggered in a real run.</b> Loops can't be kept (only measurable improvement is kept), and repeated proposals are refused before they run.</li>
+        <li><b>Claude's plans vary between runs</b>; the physics does not. That is why solutions are re-checked by replay.</li>
+      </ul></div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot">RealGrounds · c0mplied-16 · Track 3 Unsupervised · simulated results only · data: NYU Depth V2 / SUN RGB-D (research use)</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="/web/app.js"></script>
+</body>
+</html>

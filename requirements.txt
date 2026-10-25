@@ -1,0 +1,17 @@
+# RealGrounds Voice (versions as tested, Python 3.14, macOS Apple Silicon). Uses the shared ../.venv.
+numpy==2.5.3
+opencv-python==5.0.0.93
+pyyaml==6.0.3
+pillow==12.3.0            # EXIF lens info
+matplotlib==3.11.2        # floor plans (developer view)
+torch==2.14.0
+transformers==5.17.0      # SegFormer, Grounding DINO, SAM
+huggingface_hub==1.33.0
+safetensors==0.8.0
+mujoco==3.14.0            # physics checks + the agent
+trimesh==5.1.1
+# Depth + lens = MoGe-2 (Microsoft, MIT; weights in models/moge-2-vitl-normal/). Install WITHOUT dependencies on a
+# Mac (its package lists a GPU library, flex-gemm/triton, that doesn't exist on Macs and isn't needed):
+#   pip install --no-deps "moge @ git+https://github.com/microsoft/MoGe.git" \
+#     "utils3d_moge @ git+https://github.com/EasternJournalist/utils3d-moge.git@62f09d58509485564e24d5d9f6aac9ee9ebc0c37" \
+#     "pipeline @ git+https://github.com/EasternJournalist/pipeline.git@1c511390d90226c00c101f34b84df26a0f8789b4"

@@ -1,0 +1,31 @@
+# One session in the real dorm, zone 1 (desk side, photo IMG_9683) - the room exactly as the
+# pipeline built it from the photo. expect: done / refused / failed (see tasks_simple.yaml).
+tasks:
+  - say: walk to the desk
+    expect: done
+  - say: pick up the keyboard
+    expect: done
+  - say: put it on the bed                     # "bed": the loft bed (1.8 m) or the bed under it -> the one in reach
+    expect: done
+  - say: pull out the chair                    # tucked under the desk; the backpack hanging on it catches on a desk leg
+    expect: failed
+  - say: take the backpack off the chair and put it on the floor
+    expect: done
+  - say: pull out the chair                    # now it comes out (sideways past the leg, then out)
+    expect: done
+  - say: put the mouse on the chair
+    expect: done
+  - say: pick up the stuffed toy and put it on the desk
+    expect: done
+  - say: pick up the pillow on the blanket and put it on the floor
+    expect: done
+  - say: pick up the desk                      # static furniture
+    expect: refused
+  - say: pick up the fan                       # its support (a shelf) was not seen: held in place
+    expect: refused
+  - say: put the keyboard on the poster        # not a surface
+    expect: refused
+  - say: pick up the guitar                    # not recognised in this photo
+    expect: refused
+  - say: pick up the mattress                  # blanket, toys, keyboard on it: covered / too heavy
+    expect: failed
