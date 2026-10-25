@@ -6,9 +6,24 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const pl = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const usd = (v) => (v ? "$" + (v < 0.01 ? v.toFixed(4) : v.toFixed(3)) : "$0");
 const data = { results: null, experiments: null, overview: null };
+// a published snapshot (export_site.py sets RG_STATIC): read the exported JSON, never call the backend
+const STATIC = !!window.RG_STATIC;
+if (STATIC) document.body.classList.add("static");
+const SNAPSHOT_MSG = "This is a published snapshot. To run the agent, start the app locally: python app.py";
+async function snapshot(path, body) {
+  if (body !== undefined) throw new Error(SNAPSHOT_MSG);
+  const u = new URL(path, "http://x");
+  const f = { "/api/overview": "data/overview.json", "/api/results": "data/results.json", "/api/experiments": "data/experiments.json" }[u.pathname]
+    || (u.pathname === "/api/room" ? "data/rooms/" + (u.searchParams.get("id") || "").replace(/[^A-Za-z0-9_-]/g, "_") + ".json" : null);
+  if (!f) throw new Error(SNAPSHOT_MSG);
+  const r = await fetch(f);
+  if (!r.ok) throw new Error("This room is not in the published snapshot.");
+  return r.json();
+}
 
 // ================================================================ plumbing
 async function api(path, body) {
+  if (STATIC) return snapshot(path, body);
   let r;
   try {
     r = await fetch(path, body === undefined ? {} : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
@@ -58,7 +73,7 @@ function progress(el, title, note) {
 async function refreshBudget() {
   try {
     data.overview = await api("/api/overview");
-    $("#budget").textContent = `Claude budget ${usd(data.overview.spent_usd)} / $${data.overview.cap_usd.toFixed(2)}`;
+    $("#budget").textContent = STATIC ? `Snapshot · ${data.overview.snapshot_time || ""}` : `Claude budget ${usd(data.overview.spent_usd)} / $${data.overview.cap_usd.toFixed(2)}`;
   } catch (e) { $("#budget").textContent = "server offline"; }
   return data.overview;
 }
@@ -237,8 +252,8 @@ async function loadExperiments(q, force) {
         ${r ? stats(r) : '<p class="muted">No recorded run yet. Run it live.</p>'}
         ${recs.length > 1 ? `<label>Recording <select data-rec="${v}">${recs.map((x) => `<option value="${esc(x.time)}" ${r && x.time === r.time ? "selected" : ""}>${esc(recName(x))}</option>`).join("")}</select></label>` : ""}
         <div class="acts">${r ? `<button class="btn primary small" data-open="${v}">Step by step</button>` : ""}
-          <button class="btn small" data-live="${v}" data-planner="claude">Run live with Claude</button>
-          <button class="btn ghost small" data-live="${v}" data-planner="rules">Run with rules</button></div>
+          <button class="btn small live-only" data-live="${v}" data-planner="claude">Run live with Claude</button>
+          <button class="btn ghost small live-only" data-live="${v}" data-planner="rules">Run with rules</button></div>
         <div class="progress hidden" id="exp-prog-${v}"></div>
       </div></article>`;
   }).join("");
@@ -484,7 +499,7 @@ async function loadSafety() {
       <div class="ev">${tests}${real}</div>
       <div class="acts">${rule.exp ? `<a class="btn small" href="#experiments?open=${rule.exp}">See it: ${EXP[rule.exp].name} room</a>` : ""}
         ${rec ? `<button class="btn small" data-rec-i="${i}">${esc(rule.recordLabel)}</button>` : ""}
-        ${rule.live ? `<button class="btn ghost small" data-live-i="${i}">${esc(rule.live.label)}</button>` : ""}</div></div>`;
+        ${rule.live ? `<button class="btn ghost small live-only" data-live-i="${i}">${esc(rule.live.label)}</button>` : ""}</div></div>`;
   }).join("");
   $$("[data-rec-i]").forEach((b) => b.onclick = () => showSafety(RULES[+b.dataset.recI].record(data.experiments), RULES[+b.dataset.recI].title));
   $$("[data-live-i]").forEach((b) => b.onclick = async () => {
@@ -533,7 +548,7 @@ async function loadResults() {
   const vs = verified(r.runs);
   $("#verify").innerHTML = (vs.length ? vs.map((v) => `<p><span class="tag good">${v.held} / ${v.replayed}</span> solutions of <b>${esc(v.run)}</b> hold again on a fresh copy
       <span class="muted">· checked ${esc(v.time.replace("T", " "))}${v.failed.length ? " · failed: " + esc(v.failed.join("; ")) : ""}</span></p>`).join("") : '<p class="muted">Not checked yet.</p>')
-    + `<div class="row">${r.runs.filter((x) => x.solvable).map((x) => `<button class="btn small" data-verify="${esc(x.run)}">Re-check ${esc(x.run)} (${x.solvable} solved)</button>`).join("")}</div>
+    + `<div class="row live-only">${r.runs.filter((x) => x.solvable).map((x) => `<button class="btn small" data-verify="${esc(x.run)}">Re-check ${esc(x.run)} (${x.solvable} solved)</button>`).join("")}</div>
        <div class="progress hidden" id="verify-prog"></div>`;
   $("#runs").innerHTML = r.runs.length ? `<div class="scroll"><table class="tbl"><tr><th>run</th><th class="num">rooms</th><th class="num">time</th><th class="num">solved</th>
       <th class="num">impossible</th><th class="num">stopped</th><th class="num">already true</th><th class="num">repeats refused</th><th class="num">help</th><th class="num">cost</th><th></th></tr>

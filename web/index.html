@@ -35,7 +35,7 @@
           snapshot, keeps only what measurably helps, and stops or asks for help when it should.</p>
         <div class="cta">
           <a class="btn primary" href="#experiments">Explore Demo</a>
-          <button class="btn" id="cta-upload">Upload a Photo</button>
+          <button class="btn live-only" id="cta-upload">Upload a Photo</button>
         </div>
         <p class="fine">Simulation only. Every result is labelled as simulated; nothing here claims a real-world outcome.</p>
       </div>
@@ -75,7 +75,7 @@
     <p class="eyebrow">Experiments · <span class="src hand">hand-made test scenes</span></p>
     <h2 class="page">Three rooms, one task</h2>
     <p class="sec-sub">The task is the same in each room: <b>walk through the gap to the far side</b>. Only what blocks
-      the gap changes. Each card replays a recorded run of the real backend; <b>Run live</b> runs it again now.</p>
+      the gap changes. Each card replays a recorded run of the real backend<span class="live-only">; <b>Run live</b> runs it again now</span>.</p>
     <div class="exp-grid" id="exp-grid"><div class="skeleton">Loading recorded runs …</div></div>
     <div class="detail hidden" id="exp-detail"></div>
   </div>
@@ -89,13 +89,16 @@
     <p class="sec-sub">Pick a room rebuilt from a photo, or upload your own. Give the agent a task and watch it work. Every
       task runs on the real backend.</p>
 
+    <div class="card static-note"><h3>Published snapshot</h3><p class="muted">Explore the rooms below as they were
+      measured. Running the agent, uploading a photo and running the tests need the local app:
+      <code>python app.py</code> in the project folder.</p></div>
     <div class="card step">
       <div class="step-n">1</div>
       <div class="step-body">
         <h3>Choose a room, or photograph one</h3>
         <div class="row">
           <label class="grow">Room <select id="room"></select></label>
-          <label class="file btn">Upload a photo<input type="file" id="photo" accept="image/*,.heic,.HEIC"></label>
+          <label class="file btn live-only">Upload a photo<input type="file" id="photo" accept="image/*,.heic,.HEIC"></label>
         </div>
         <div id="build" class="progress hidden"></div>
       </div>
@@ -117,7 +120,7 @@
         </div>
       </div>
 
-      <div class="card step">
+      <div class="card step live-only">
         <div class="step-n">3</div>
         <div class="step-body">
           <h3>Give it a task</h3>
@@ -183,7 +186,7 @@
     <p class="sec-sub">Everything below comes from this repository's tests and run logs (also written up in RESULTS.md).
       All agent outcomes are <b>simulated</b>.</p>
 
-    <div class="card"><div class="card-head"><h3>Automated tests</h3><button class="btn primary" id="runtests">Run all tests</button></div>
+    <div class="card"><div class="card-head"><h3>Automated tests</h3><button class="btn primary live-only" id="runtests">Run all tests</button></div>
       <div id="tests"></div></div>
 
     <div class="card"><div class="card-head"><h3>Re-checked solutions</h3></div>
@@ -191,7 +194,7 @@
         fresh copy of the room and measure the goal again.</p><div id="verify"></div></div>
 
     <div class="card"><div class="card-head"><h3>Unattended evaluations on real rooms</h3>
-      <div class="row tight"><label>Rooms <select id="nrooms"><option>3</option><option>5</option><option>10</option></select></label>
+      <div class="row tight live-only"><label>Rooms <select id="nrooms"><option>3</option><option>5</option><option>10</option></select></label>
       <button class="btn" id="startrun">Start a small run</button></div></div>
       <p class="muted">Each run builds rooms from <span class="src photo">photos</span> (NYU Depth V2, one photo per room),
         has Claude write tasks, proves them, and stops a task, or the whole run, when it should.</p>

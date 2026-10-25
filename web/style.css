@@ -18,7 +18,7 @@ h1, h2, h3 { letter-spacing: -.01em; }
 .muted { color: var(--muted); font-size: 13.5px; }
 
 /* ---------------------------------------------------------------- top bar */
-.top { position: sticky; top: 0; z-index: 10; background: rgba(12, 12, 13, .9); backdrop-filter: blur(10px);
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(12, 12, 13, .9); backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line); }
 .bar { display: flex; align-items: center; gap: 20px; height: 60px; }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 700; font-size: 17px; white-space: nowrap; }
@@ -236,3 +236,9 @@ figcaption { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
   .step { gap: 10px; } .step-n { flex-basis: 26px; height: 26px; font-size: 13px; }
   .card { padding: 15px; } .detail { padding: 15px; } .rules { grid-template-columns: 1fr; }
 }
+
+/* published snapshot: hide what needs the local backend */
+.static-note { display: none; }
+body.static .static-note { display: block; }
+body.static .live-only { display: none !important; }
+code { font-family: var(--mono); font-size: .92em; background: var(--bg2); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; }
