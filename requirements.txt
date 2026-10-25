@@ -9,6 +9,7 @@ transformers==5.17.0      # SegFormer, Grounding DINO, SAM
 huggingface_hub==1.33.0
 safetensors==0.8.0
 mujoco==3.14.0            # physics checks + the agent
+anthropic==2.3.0          # Claude as the planner (optional: --planner rules needs no key)
 trimesh==5.1.1
 # Depth + lens = MoGe-2 (Microsoft, MIT; weights in models/moge-2-vitl-normal/). Install WITHOUT dependencies on a
 # Mac (its package lists a GPU library, flex-gemm/triton, that doesn't exist on Macs and isn't needed):

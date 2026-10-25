@@ -94,9 +94,9 @@ const plannerName = (p) => p === "fixed rules" ? "fixed rules (no AI)" : (p || "
 const clean = (s) => String(s || "").replace(/^[✗✓↩\s]+/, "").replace(/^refused:\s*/, "");
 
 // ================================================================ router
-const VIEWS = ["overview", "experiments", "lab", "safety", "results"];
+const VIEWS = ["overview", "experiments", "lab", "safety", "results", "run"];
 const ALIAS = { try: "lab", stops: "experiments", runs: "results" };
-const LOADERS = { overview: loadOverview, experiments: loadExperiments, lab: loadLab, safety: loadSafety, results: loadResults };
+const LOADERS = { overview: loadOverview, experiments: loadExperiments, lab: loadLab, safety: loadSafety, results: loadResults, run: () => {} };
 function route() {
   let [v, q] = location.hash.slice(1).split("?");
   v = ALIAS[v] || v;

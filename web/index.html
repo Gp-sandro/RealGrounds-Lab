@@ -17,6 +17,7 @@
       <a href="#lab">Live Lab</a>
       <a href="#safety">Safety</a>
       <a href="#results">Results</a>
+      <a href="#run">Run it yourself</a>
     </nav>
     <div class="pill" id="budget" title="The app's own supervisor: Claude is refused once this budget is spent">Claude budget …</div>
   </div>
@@ -91,7 +92,7 @@
 
     <div class="card static-note"><h3>Published snapshot</h3><p class="muted">Explore the rooms below as they were
       measured. Running the agent, uploading a photo and running the tests need the local app:
-      <code>python app.py</code> in the project folder.</p></div>
+      <code>python app.py</code> in the project folder. See <a href="#run">Run it yourself</a>.</p></div>
     <div class="card step">
       <div class="step-n">1</div>
       <div class="step-body">
@@ -219,6 +220,56 @@
         <li><b>The loop detector has not triggered in a real run.</b> Loops can't be kept (only measurable improvement is kept), and repeated proposals are refused before they run.</li>
         <li><b>Claude's plans vary between runs</b>; the physics does not. That is why solutions are re-checked by replay.</li>
       </ul></div>
+  </div>
+</section>
+<!-- ================================================================ RUN IT YOURSELF -->
+<section class="view" id="view-run">
+  <div class="wrap">
+    <p class="eyebrow">Run it yourself</p>
+    <h2 class="page">Reproduce the experiments</h2>
+    <p class="sec-sub">Everything on this site comes from code you can run. The three experiments need only the physics
+      engine: no vision models, no GPU. Claude is optional; the fixed-rules planner is free and needs no key.</p>
+
+    <div class="card step"><div class="step-n">1</div><div class="step-body">
+      <h3>Get the code and install</h3>
+      <p class="muted">Tested on macOS (Apple Silicon) with Python 3.14.</p>
+<pre class="cmd">git clone &lt;repository URL from our submission&gt; realgrounds
+cd realgrounds
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install numpy opencv-python pyyaml mujoco anthropic</pre>
+    </div></div>
+
+    <div class="card step"><div class="step-n">2</div><div class="step-body">
+      <h3>Run the three experiments (about 10 seconds each)</h3>
+<pre class="cmd">python run_task.py --scene light --planner rules --video   # solved: the box is moved out of the way
+python run_task.py --scene heavy --planner rules --video   # stops: 40 kg test box, the arm lifts 15 kg
+python run_task.py --scene wall  --planner rules           # stops at once: impossible by geometry</pre>
+      <p class="muted">Each run writes <code>outputs/tasks/&lt;scene&gt;/</code>: <code>report.md</code> (every try, what was
+        kept, the supervisor's decision), <code>video.mp4</code> and <code>stills.png</code>.</p>
+    </div></div>
+
+    <div class="card step"><div class="step-n">3</div><div class="step-body">
+      <h3>Let Claude plan (optional)</h3>
+<pre class="cmd">echo "ANTHROPIC_API_KEY=sk-ant-..." &gt; .env              # stays local, git-ignored
+python run_task.py --scene heavy --planner claude --video  # about $0.001 per run with Claude Haiku 5.5</pre>
+      <p class="muted">Try the stop rules: <code>--max-tries 1</code> stops on the attempt limit. Every Claude call is priced and
+        counted; the supervisor stops a task when its budget is spent.</p>
+    </div></div>
+
+    <div class="card step"><div class="step-n">4</div><div class="step-body">
+      <h3>Check the claims</h3>
+<pre class="cmd">pip install pillow matplotlib trimesh
+python -m unittest discover -s tests -t .                 # 44 tests, about 7 s, no network, no cost</pre>
+    </div></div>
+
+    <div class="card step"><div class="step-n">5</div><div class="step-body">
+      <h3>The full app and your own photos</h3>
+<pre class="cmd">pip install -r requirements.txt                          # plus MoGe-2, see requirements.txt
+python app.py                                             # this site, live, at http://127.0.0.1:8000</pre>
+      <p class="muted">Rebuilding rooms from photos needs the four vision models in <code>models/</code> (MoGe-2, SegFormer,
+        Grounding DINO, SAM; about a minute per photo on an M-series Mac). The README lists them. With the app running, every
+        button on this site works: run the experiments live, upload a photo, run the tests.</p>
+    </div></div>
   </div>
 </section>
 </main>

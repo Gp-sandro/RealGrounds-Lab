@@ -242,3 +242,5 @@ figcaption { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
 body.static .static-note { display: block; }
 body.static .live-only { display: none !important; }
 code { font-family: var(--mono); font-size: .92em; background: var(--bg2); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; }
+pre.cmd { font: 13.5px/1.6 var(--mono); background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+  overflow-x: auto; color: var(--text); margin: 8px 0; white-space: pre; }
